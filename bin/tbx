@@ -1,12 +1,8 @@
 #!/bin/bash
 set -x #echo on
-# SCRIPT=$(readlink -f "$0")
-# SCRIPTPATH=$(dirname "$SCRIPT")
-# SCRIPTNAME="$0"
 ARGS="$@"
-# BRANCH="Your_git_branch"
 
-TBX_PATH=~/.tbx
+export TBX_PATH=~/.tbx
 
 self_update() {
 
@@ -20,30 +16,9 @@ self_update() {
   if [ ! -d "$TBX_PATH/bin" ]; then
     echo "Need bin"
     ln -s "$TBX_PATH/core/bin" "$TBX_PATH/bin"
-    # mkdir -p "$TBX_PATH/bin"
   fi
 
-  pushd $TBX_PATH/core
-  git fetch
-  git merge --ff-only origin/master
-  popd
-
-
-    # cd $SCRIPTPATH
-    # git fetch
-    #
-    # [ -n $(git diff --name-only origin/$BRANCH | grep $SCRIPTNAME) ] && {
-    #     echo "Found a new version of me, updating myself..."
-    #     git pull --force
-    #     git checkout $BRANCH
-    #     git pull --force
-    #     echo "Running the new version..."
-    #     exec "$SCRIPTNAME" "$@"
-    #
-    #     # Now exit this old instance
-    #     exit 1
-    # }
-    # echo "Already the latest version."
+  $TBX_PATH/core/commands/update.sh
 }
 
 main() {
